@@ -1,4 +1,5 @@
 const userData = require('../models/users.models')
+const bcrypt = require('bcrypt')
 
 //Controller routes
 
@@ -22,23 +23,44 @@ const addUser = async(req, res, next) => {
 const modifyUser = async(req, res, next) => {
     const user = await userData.findById(req.params.id)
     try{
-        await userData.findOneAndUpdate(
-            {_id: user._id},
-            {$set:
+        await userData.findByIdAndUpdate(
+            user._id,
+                {$set:
                 {
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
-                    password: req.body.password,
                     email: req.body.email,
                     country: req.body.country
                 }
-
             },
-            {new: true},
-        )
+            {new: true})
 
-        await user.save()
+            await user.save()
+        
+    
         res.status(200).json({message: "User edited successfully"})
+    } catch(err){
+        res.status(500).json({message: err.message})
+    }
+}
+
+
+const modifyUserPassword = async(req, res, next) => {
+    const user = await userData.findById(req.params.id)
+    try{
+        await userData.findByIdAndUpdate(
+            user._id,
+                {$set:
+                {  
+                    password: await bcrypt.hash(req.body.password, 10)
+                }
+            },
+            {new: true})
+
+            await user.save()
+        
+    
+        res.status(200).json({message: "User password edited successfully"})
     } catch(err){
         res.status(500).json({message: err.message})
     }
@@ -84,6 +106,7 @@ const getUsers = async(req, res, next) => {
 module.exports = {
     addUser,
     modifyUser,
+    modifyUserPassword,
     removeUser,
     getUsers,
 }
