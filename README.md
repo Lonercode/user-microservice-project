@@ -17,7 +17,7 @@ Both frontend, backend and database are run concurrently.
 Install nodejs from <a href="https://nodejs.org">*nodejs.org*</a>. Likewise, follow the instructions for your operating system.
 #### Installation of nodejs and npm on different Operating Systems
 *windows*
->Install using the link above and follow the instructions
+>Install using the link above and follow the instructions\
 *macOS*
 >Install nodejs and npm using Homebrew. Open the terminal and run:
 ```bash
