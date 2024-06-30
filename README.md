@@ -30,7 +30,7 @@ Install nodejs from <a href="https://nodejs.org">*nodejs.org*</a>. Likewise, fol
     sudo apt update
     sudo apt install nodejs npm
 ```
-#### Testing of the endpoints in the backend 
+### Testing of the endpoints in the backend 
 >Move to the Backend folder and run:
 ```bash
     npm run test
