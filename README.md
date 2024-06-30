@@ -1,12 +1,12 @@
 # user-microservice-project
 >
-> ***The app targets node 18.7.0***
+> ***The app targets node 18.7.0***\
 > link to API documentation on postman here: https://documenter.getpostman.com/view/25777649/2sA3duGZ3e
 
 ## Start here
 To use the app, you would need mongodb, nodejs and npm installed.\
 Both frontend, backend and database are run concurrently.\
-\
+
 
 ### How to set up MongoDB
 > Install mongodb on your machine.\
