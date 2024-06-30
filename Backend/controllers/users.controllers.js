@@ -13,7 +13,7 @@ const addUser = async(req, res, next) => {
         country: req.body.country      
     })
 
-    res.status(201).json(`User has been created successfully: ${newUser}`)
+    res.status(201).json("User has been created successfully")
 } catch(err){
     res.status(500).json({message: err.message})
 }

@@ -44,6 +44,22 @@ describe('/PUT modify-user', () => {
     })
 })
 
+describe('/PUT modify-user-password', () => {
+    it("should modify existing user password", () => {
+        chai.request(app)
+        .put('/users/modify-user-password/667ec3a541dd82deb240f5ej')
+        .send({
+           
+            "password": "supersecurepassword",
+            
+        })
+        .end((err, res) => {
+            expect(res.status).to.be(200)
+            expect(res).to.be.an('object')
+        })
+    })
+})
+
 describe('/DELETE remove-user', () => {
     it("Should delete user data", () => {
         chai.request(app)

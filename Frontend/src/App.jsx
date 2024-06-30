@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import {BrowserRouter, Routes, Route, useNavigate, Outlet} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './pages/home';
 import AddUser from './pages/add';
 import UpdateUser from './pages/update';
@@ -11,9 +11,8 @@ function Nav(){
   return (
     <>
       <div className='navBar'>
-        <a href = "/home">Home</a>
+        <a href = "/">Home</a>
         <a href = "/addUser">Add User</a>
-        <a href = "/updateUser">Games</a>
       </div>
     </>
   )
@@ -27,7 +26,7 @@ function App() {
     <Nav/>
     <BrowserRouter>
     <Routes>
-      <Route path="/home/:country?" element = {<Home/>}/>
+      <Route path="/:country?" element = {<Home/>}/>
       <Route path="/addUser" element = {<AddUser/>}/>
       <Route path="/updateUser/:_id/:first_name/:last_name/:email/:country" element = {<UpdateUser/>}/>
       <Route path="/updatePassword/:_id" element = {<UpdatePassword/>}/>

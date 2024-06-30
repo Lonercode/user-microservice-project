@@ -45,7 +45,7 @@ function UpdateUser(){
             position: 'top-right'
         })
         setTimeout(() => {
-            navigate("/home");
+            navigate("/");
           }, 2000)
         }
 

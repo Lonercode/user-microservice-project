@@ -73,7 +73,7 @@ function AddUser(){
         })
        
         setTimeout(() => {
-            navigate("/home");
+            navigate("/");
           }, 2000)
        
     }
