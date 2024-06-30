@@ -14,7 +14,7 @@ Both frontend, backend and database are run concurrently.
 >Afterwards, start the mongod service in your cmd.
 
 ### How to set up Nodejs
->Install nodejs from <a href="https://nodejs.org">*nodejs.org*</a>. Likewise, follow the >instructions for your operating system.
+>Install nodejs from <a href="https://nodejs.org">*nodejs.org*</a>. Likewise, follow the instructions for your operating system.
 #### Installation of nodejs and npm on different Operating Systems
 *windows*
 >Install using the link above and follow the instructions.
