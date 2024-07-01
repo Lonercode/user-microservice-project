@@ -25,3 +25,12 @@ Feel free to write an app (e.g. React app) to try those endpoints out or just in
     "updated_at": "2024-06-25T10:25:53.853634275+02:00"
 }
 ```
+
+## Things to Implement
+
+- Fix the warnings that showed up in DevTools (related to FE & BE)
+- Logging
+- Documentation of the code. Focus on server-side things
+- Expose a health check endpoint
+- Make sure that you have implemented validation of the data you ingest from the user. I noticed value `US` is not valid as a country. Isn't it?
+- Implement a mail service to send an email when the user has been created

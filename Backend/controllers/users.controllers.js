@@ -3,29 +3,32 @@ const bcrypt = require('bcrypt')
 
 //Controller routes
 
-const addUser = async(req, res, next) => {
-    try{
-    const newUser = await userData.create({
-        first_name : req.body.first_name,
-        last_name : req.body.last_name,
-        password: req.body.password,
-        email: req.body.email,
-        country: req.body.country      
-    })
+const addUser = async (req, res, next) => {
+    try {
+        const newUser = await userData.create({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            password: req.body.password,
+            email: req.body.email,
+            country: req.body.country
+        })
 
-    res.status(201).json("User has been created successfully")
-} catch(err){
-    res.status(500).json({message: err.message})
+        // FIXME: return a JSON object with the id, something like:
+        // {"id: "cbf0df7a-13a4-42bd-a6c4-06951694f83d"}
+        res.status(201).json("User has been created successfully")
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
 }
-}
 
 
-const modifyUser = async(req, res, next) => {
+const modifyUser = async (req, res, next) => {
     const user = await userData.findById(req.params.id)
-    try{
+    try {
         await userData.findByIdAndUpdate(
             user._id,
-                {$set:
+            {
+                $set:
                 {
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
@@ -33,71 +36,72 @@ const modifyUser = async(req, res, next) => {
                     country: req.body.country
                 }
             },
-            {new: true})
+            { new: true })
 
-            await user.save()
-        
-    
-        res.status(200).json({message: "User edited successfully"})
-    } catch(err){
-        res.status(500).json({message: err.message})
+        await user.save()
+
+
+        res.status(200).json({ message: "User edited successfully" })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
     }
 }
 
 
-const modifyUserPassword = async(req, res, next) => {
+const modifyUserPassword = async (req, res, next) => {
     const user = await userData.findById(req.params.id)
-    try{
+    try {
         await userData.findByIdAndUpdate(
             user._id,
-                {$set:
-                {  
+            {
+                $set:
+                {
                     password: await bcrypt.hash(req.body.password, 10)
                 }
             },
-            {new: true})
+            { new: true })
 
-            await user.save()
-        
-    
-        res.status(200).json({message: "User password edited successfully"})
-    } catch(err){
-        res.status(500).json({message: err.message})
+        await user.save()
+
+
+        res.status(200).json({ message: "User password edited successfully" })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
     }
 }
 
 
-const removeUser = async(req, res, next) => {
+const removeUser = async (req, res, next) => {
     const user = await userData.findById(req.params.id)
-    try{
+    try {
         await userData.findByIdAndDelete(user._id)
-        res.status(200).json({message: "User has successfully been removed"})
+        res.status(200).json({ message: "User has successfully been removed" })
 
-    }catch(err){
-        res.status(500).json({message: err.message})
+    } catch (err) {
+        res.status(500).json({ message: err.message })
     }
 }
 
-const getUsers = async(req, res, next) => {
-    
-    try{
-    const page = 1
-    const limit = 10
+const getUsers = async (req, res, next) => {
 
-    const startIndex = (page - 1) * limit
-    const total = await userData.countDocuments()
-    const allUsers = await userData.find({}).skip(startIndex).limit(limit)
-    const countries = await userData.find({country: req.params.country})
-    
-    if (req.params.country){
-    res.status(200).json({message: countries, page, limit, total, pages: Math.ceil(total/limit)})
-    }
-    else{
-    res.status(200).json({message: allUsers, page, limit, total, pages: Math.ceil(total/limit)})
-    }
+    try {
+        const page = 1
+        const limit = 10
 
-    }catch(err){
-        res.status(500).json({message: err.message})
+        const startIndex = (page - 1) * limit
+        const total = await userData.countDocuments()
+        const allUsers = await userData.find({}).skip(startIndex).limit(limit)
+        const countries = await userData.find({ country: req.params.country })
+
+        if (req.params.country) {
+            res.status(200).json({ message: countries, page, limit, total, pages: Math.ceil(total / limit) })
+        }
+        else {
+            res.status(200).json({ message: allUsers, page, limit, total, pages: Math.ceil(total / limit) })
+        }
+
+    } catch (err) {
+        res.status(500).json({ message: err.message })
     }
 
 }
