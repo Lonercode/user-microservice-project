@@ -3,10 +3,12 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate} from "react-router-dom"
 import {ToastContainer, toast} from 'react-toastify';
-import {countries} from 'countries-list';
+import { checkCountryValidity } from "iso-country-validator";
 
 
 function UpdateUser(){
+
+    
 
     const data = useParams()
     const navigate = useNavigate()
@@ -14,10 +16,6 @@ function UpdateUser(){
         email: data.email, country: data.country
     });
     const {first_name, last_name, email, country} = created;
-    const countryList = Object.values(countries)
-    const validCountry = countryList.some(acountry => acountry.name === created.country)
-
- 
 
 
     const handleOnChange = (e) => {
@@ -51,14 +49,14 @@ function UpdateUser(){
 
         const handleSubmit = (e) => {
             e.preventDefault()
-
+            const validCountry = checkCountryValidity(created.country)
             if (!validCountry){
                 toast.error("Please type in a valid country", {
                     position: 'top-right'
                 })
             }
             else{
-            axios.put(`http://localhost:4000/users/modify-user/${data._id}`, {
+            axios.put(`http://localhost:4000/v1/users/${data._id}`, {
                 ...created,
                 
             },

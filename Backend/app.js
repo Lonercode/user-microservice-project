@@ -9,8 +9,15 @@ const corsOrigin ={
     methods: ["POST", 'PUT', 'GET', 'DELETE'],
 }
 
+
 app.use(express.json())
 app.use(cors(corsOrigin))
-app.use('/users', routes)
+app.use('/v1', routes)
+
+//healthcheck endpoint
+
+app.get('/health', (req, res) => {
+    res.status(200).send('Server is up and running! All good!');
+  });
 
 module.exports = app

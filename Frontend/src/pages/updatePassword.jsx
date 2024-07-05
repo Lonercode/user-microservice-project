@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { Icon } from 'react-icons-kit'
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import { eye } from 'react-icons-kit/feather/eye';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
 import {ToastContainer, toast} from 'react-toastify';
 import { useParams } from 'react-router-dom'
@@ -13,15 +11,15 @@ function UpdatePassword(){
     const navigate = useNavigate()
     const [password, setPassword] = useState("");
     const [type, setType] = useState("password");
-    const [icon, setIcon] = useState(eyeOff)
+    const [icon, setIcon] = useState(FaEyeSlash)
 
     const handleEye = () => {
         if (type === 'password'){
-            setIcon(eye);
+            setIcon(<FaEye/>);
             setType('text')
         }
         else{
-            setIcon(eyeOff)
+            setIcon(<FaEyeSlash/>)
             setType('password')
         }
     }
@@ -54,7 +52,7 @@ function UpdatePassword(){
     const handleSubmit = event => {
         event.preventDefault()
 
-        axios.put(`http://localhost:4000/users/modify-user-password/${data._id}`, {
+        axios.put(`http://localhost:4000/v1/users/${data._id}/password`, {
             password: password
         }
             )
@@ -75,8 +73,8 @@ function UpdatePassword(){
             <h3>Type in the new password</h3>
             <ToastContainer className='toasty'/>
         <form method="post" onSubmit={handleSubmit}>
-            <label id= "resetPassword"><b>Password</b><span class = "flex justify-around items-center" onClick={handleEye}>
-                <Icon class="absolute mr-10" icon={icon} size={25}/>
+            <label id= "resetPassword"><b>Password</b><span className = "flex justify-around items-center" onClick={handleEye}>
+                {icon}
             </span></label>
             <input type={type} id="resetPassword" name="password" value={password}
             onChange={handleOnChange}></input>

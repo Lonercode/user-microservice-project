@@ -1,47 +1,50 @@
 import { useState } from "react"
-import { Icon } from 'react-icons-kit'
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import { eye } from 'react-icons-kit/feather/eye';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import {countries} from 'countries-list';
+import {checkCountryValidity} from 'iso-country-validator';
 
 
 function AddUser(){
 
-
+    const [user, setUser] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        country: ''
+    });
     const [password1, setPassword1] = useState("");
     const [type, setType] = useState("password");
     const [type1, setType1] = useState("password");
-    const [icon, setIcon] = useState(eyeOff)
-    const [icon1, setIcon1] = useState(eyeOff)
+    const [icon, setIcon] = useState(FaEyeSlash)
+    const [icon1, setIcon1] = useState(FaEyeSlash)
 
-    const navigate = useNavigate()
-    const [user, setUser] = useState("");
+    const navigate = useNavigate();
     const {first_name, last_name, email, password, country} = user;
-    const countryList = Object.values(countries)
-    const validCountry = countryList.some(acountry => acountry.name === user.country)
+    
 
     const handleEye = () => {
         if (type === 'password'){
-            setIcon(eye);
+            setIcon(<FaEye/>);
             setType('text')
         }
         else{
-            setIcon(eyeOff)
+            setIcon(<FaEyeSlash/>)
             setType('password')
         }
     }
 
     const handleEye1 = () => {
         if (type1 === 'password'){
-            setIcon1(eye);
+            setIcon1(<FaEye/>);
             setType1('text')
         }
         else{
-            setIcon1(eyeOff)
+            setIcon1(<FaEyeSlash/>)
             setType1('password')
         }
     }
@@ -82,13 +85,14 @@ function AddUser(){
 
      const handleSubmit = (e) => {
         e.preventDefault()
+        const validCountry = checkCountryValidity(user.country)
         if (!validCountry){
             toast.error("Please type in a valid country", {
                 position: 'top-right'
             })
         }
         else{
-        axios.post('http://localhost:4000/users/add-user', {
+        axios.post('http://localhost:4000/v1/users', {
             ...user,
             confirmPassword: password1
             
@@ -98,8 +102,8 @@ function AddUser(){
        
         .then((res) => handleSuccess(res.data.message))
 
-        .then(() => setUser({name: "", email: "", password: "", country: ""}))
-        .then(() => setPassword1({password1: ""}))
+        .then(() => setUser({first_name: "", last_name: "", email: "", password: "", country: ""}))
+        .then(() => setPassword1(""))
         .catch(err => {
             console.log(err)
           handleError(err.response.data.message)
@@ -123,13 +127,13 @@ function AddUser(){
             <input id="email" type="email" value={email} onChange={handleOnChange} name = "email"></input>
             <label id= "country"><b>Country</b></label>
             <input id="country" type="text" value={country} onChange={handleOnChange} name = "country"></input>
-            <label id = "password"><b>Password</b><span class = "flex justify-around items-center" onClick={handleEye}>
-                <Icon class="absolute mr-10" icon={icon} size={25}/>
+            <label id = "password"><b>Password</b><span className = "flex justify-around items-center" onClick={handleEye}>
+                {icon}
             </span></label>
             <input type={type} id="pass1"name="password" value={password}
             onChange={handleOnChange}></input>
-            <label id = "password"><b>Confirm Password</b><span class = "flex justify-around items-center" onClick={handleEye1}>
-                <Icon class="absolute mr-10" icon={icon1} size={25}/>
+            <label id = "password1"><b>Confirm Password</b><span className = "flex justify-around items-center" onClick={handleEye1}>
+                {icon1}
             </span></label>
             <input type={type1} id="pass2" name="confirmPassword" value={password1}
             onChange={(e) => setPassword1(e.target.value)}></input>

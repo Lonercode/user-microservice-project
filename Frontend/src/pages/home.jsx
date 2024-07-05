@@ -4,11 +4,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import {countries} from 'countries-list';
+import { checkCountryValidity } from 'iso-country-validator';
 
 function Home() {
   const [entries, setEntries] = useState([]);
-  const [url, setUrl] = useState('http://localhost:4000/users/get-users');
-  const countryList = Object.values(countries)
+  const [url, setUrl] = useState('http://localhost:4000/v1/users');
+
 
   useEffect(() => {
     axios.get(url)
@@ -28,11 +29,12 @@ function Home() {
   
   };
 
+
   const handleUrl = () => {
     const country = document.getElementById("result").value;
-    const validCountry = countryList.some(acountry => acountry.name === country)
+    const validCountry = checkCountryValidity(country)
     if(validCountry){
-    setUrl(`http://localhost:4000/users/get-users/${country}`);
+    setUrl(`http://localhost:4000/v1/users?country=${country}`);
     }
     else{
         toast.error('Please type in a valid country', { position: 'top-right' });
@@ -68,7 +70,7 @@ function Home() {
                     <button type='button' id='entryButton'>Update</button>
                   </Link>
                   <button type='button' id='entryButton' onClick={() => {
-                    axios.delete(`http://localhost:4000/users/remove-user/${item._id}`)
+                    axios.delete(`http://localhost:4000/v1/users/${item._id}`)
                       .then((res) => handleSuccess(res.data.message))
                       .catch((err) => handleError(err));
                   }}>Delete</button>

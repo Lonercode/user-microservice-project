@@ -26,7 +26,7 @@ function App() {
     <Nav/>
     <BrowserRouter>
     <Routes>
-      <Route path="/:country?" element = {<Home/>}/>
+      <Route path="/" element = {<Home/>}/>
       <Route path="/addUser" element = {<AddUser/>}/>
       <Route path="/updateUser/:_id/:first_name/:last_name/:email/:country" element = {<UpdateUser/>}/>
       <Route path="/updatePassword/:_id" element = {<UpdatePassword/>}/>

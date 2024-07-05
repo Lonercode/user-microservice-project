@@ -22,6 +22,7 @@ const userModel = new userSchema({
     email: {
         type: String,
         required: true,
+        unique: true
 
     },
 
